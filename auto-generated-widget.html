@@ -14,7 +14,7 @@
     <script type='text/javascript' src="//i2dcui.appspot.com/js/require.js"></script>
 
     <style type='text/css'>
-#com-chilipeppr-widget-grbl-body {
+#com-chilipeppr-widget-grbl-new-body {
     /* padding:0; */
 }
 
@@ -52,7 +52,7 @@
     font-size: 10px;
 }
 
-#com-chilipeppr-widget-grbl .enabled {
+#com-chilipeppr-widget-grbl-new .enabled {
     background-color: #CCFF99;
 }
     </style>
@@ -60,7 +60,7 @@
     <script type='text/javascript'>
     //<![CDATA[
 // Test this element. This code is auto-removed by the chilipeppr.load()
-cprequire_test(["inline:com-chilipeppr-widget-grbl"], function(grbl) {
+cprequire_test(["inline:com-chilipeppr-widget-grbl-new"], function(grbl) {
     //console.log("test running of " + grbl.id);
     grbl.init();
     //testRecvline();
@@ -141,9 +141,9 @@ function Queue() {
     }
 }
 
-cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie"], function() {
+cpdefine("inline:com-chilipeppr-widget-grbl-new", ["chilipeppr_ready", "jquerycookie"], function() {
     return {
-        id: "com-chilipeppr-widget-grbl",
+        id: "com-chilipeppr-widget-grbl-new",
         implements: {
             "com-chilipeppr-interface-cnccontroller": "The CNC Controller interface is a loosely defined set of publish/subscribe signals. The notion of an interface is taken from object-oriented programming like Java where an interface is defined and then specific implementations of the interface are created. For the sake of a Javascript mashup like what ChiliPeppr is, the interface is just a rule to follow to publish signals and subscribe to signals by different top-level names than the ID of the widget or element implementing the interface. Most widgets/elements will publish and subscribe on their own ID. In this widget we are publishing/subscribing on an interface name. If another controller like Grbl is defined by a member of the community beyond this widget for GRBL, this widget can be forked and used without other widgets needing to be changed and the user could pick a Grbl or GRBL implementation of the interface."
         },
@@ -263,7 +263,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
         options: null,
         setupUiFromCookie: function() {
             // read vals from cookies
-            var options = $.cookie('com-chilipeppr-widget-grbl-options');
+            var options = $.cookie('com-chilipeppr-widget-grbl-new-options');
 
             if (true && options) {
                 options = $.parseJSON(options);
@@ -286,24 +286,24 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
             var optionsStr = JSON.stringify(options);
             //console.log("GRBL: saving options:", options, "json.stringify:", optionsStr);
             // store cookie
-            $.cookie('com-chilipeppr-widget-grbl-options', optionsStr, {
+            $.cookie('com-chilipeppr-widget-grbl-new-options', optionsStr, {
                 expires: 365 * 10,
                 path: '/'
             });
         },
         showBody: function(evt) {
-            $('#com-chilipeppr-widget-grbl .panel-body .stat-row').removeClass('hidden');
-            $('#com-chilipeppr-widget-grbl .hidebody span').addClass('glyphicon-chevron-up');
-            $('#com-chilipeppr-widget-grbl .hidebody span').removeClass('glyphicon-chevron-down');
+            $('#com-chilipeppr-widget-grbl-new .panel-body .stat-row').removeClass('hidden');
+            $('#com-chilipeppr-widget-grbl-new .hidebody span').addClass('glyphicon-chevron-up');
+            $('#com-chilipeppr-widget-grbl-new .hidebody span').removeClass('glyphicon-chevron-down');
             if ((evt !== null)) {
                 this.options.showBody = true;
                 this.saveOptionsCookie();
             }
         },
         hideBody: function(evt) {
-            $('#com-chilipeppr-widget-grbl .panel-body .stat-row').addClass('hidden');
-            $('#com-chilipeppr-widget-grbl .hidebody span').removeClass('glyphicon-chevron-up');
-            $('#com-chilipeppr-widget-grbl .hidebody span').addClass('glyphicon-chevron-down');
+            $('#com-chilipeppr-widget-grbl-new .panel-body .stat-row').addClass('hidden');
+            $('#com-chilipeppr-widget-grbl-new .hidebody span').removeClass('glyphicon-chevron-up');
+            $('#com-chilipeppr-widget-grbl-new .hidebody span').addClass('glyphicon-chevron-down');
             if ((evt !== null)) {
                 this.options.showBody = false;
                 this.saveOptionsCookie();
@@ -312,9 +312,9 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
         btnSetup: function() {
             // chevron hide body
             var that = this;
-            $('#com-chilipeppr-widget-grbl .hidebody').click(function(evt) {
+            $('#com-chilipeppr-widget-grbl-new .hidebody').click(function(evt) {
                 //console.log("GRBL: hide/unhide body");
-                if ($('#com-chilipeppr-widget-grbl .panel-body .stat-row').hasClass('hidden')) {
+                if ($('#com-chilipeppr-widget-grbl-new .panel-body .stat-row').hasClass('hidden')) {
                     // it's hidden, unhide
                     that.showBody(evt);
                 }
@@ -323,34 +323,34 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
                     that.hideBody(evt);
                 }
             });
-            $('#com-chilipeppr-widget-grbl .grbl-feedhold').click(function() {
+            $('#com-chilipeppr-widget-grbl-new .grbl-feedhold').click(function() {
                 //console.log("GRBL: feedhold");
                 that.sendCode('!');
                 // announce to other widgets that user hit e-stop
                 chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerpause', "");
                 chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/feedhold", "");
             });
-            $('#com-chilipeppr-widget-grbl .grbl-cyclestart').click(function() {
+            $('#com-chilipeppr-widget-grbl-new .grbl-cyclestart').click(function() {
                 //console.log("GRBL: cyclestart");
                 that.sendCode('~');
                 //may want to check if buffer queue is >128 before resuming planner.
                 chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerresume', "");
             });
 
-            $('#com-chilipeppr-widget-grbl .grbl-verbose').click(function() {
+            $('#com-chilipeppr-widget-grbl-new .grbl-verbose').click(function() {
                 //console.log("GRBL: manual status update");
-                $('#com-chilipeppr-widget-grbl .grbl-verbose').toggleClass("enabled");
+                $('#com-chilipeppr-widget-grbl-new .grbl-verbose').toggleClass("enabled");
             });
 
-            $('#com-chilipeppr-widget-grbl .grbl-reset').click(function() {
+            $('#com-chilipeppr-widget-grbl-new .grbl-reset').click(function() {
                 //console.log("GRBL: reset");
                 that.sendCode(String.fromCharCode(24));
                 chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerresume', "");
             });
 
-            $('#com-chilipeppr-widget-grbl-btnoptions').click(this.showConfigModal.bind(this));
+            $('#com-chilipeppr-widget-grbl-new-btnoptions').click(this.showConfigModal.bind(this));
 
-            $('#com-chilipeppr-widget-grbl .btn-toolbar .btn').popover({
+            $('#com-chilipeppr-widget-grbl-new .btn-toolbar .btn').popover({
                 delay: 500,
                 animation: true,
                 placement: "auto",
@@ -369,7 +369,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
 <body>
 
     <!--Put HTML Contents of Widget Here-->
-<div id="com-chilipeppr-widget-grbl" class="panel panel-default">
+<div id="com-chilipeppr-widget-grbl-new" class="panel panel-default">
     <div class="panel-heading">
         <div class="btn-toolbar pull-right" role="toolbar">
             <div class="btn-group">
@@ -379,7 +379,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
                 <!--<button type="button" class="btn btn-xs btn-default grbl-queueflush"  data-delay="500" data-animation="true" data-placement="auto" data-container="body" data-trigger="hover" data-title="Queue Flush" data-content="Empty planner buffer. Used for jogging and other cycles"><span class="">%</span></button>-->
                 <button type="button" class="btn btn-xs btn-default grbl-reset" data-toggle="popover" data-placement="auto" data-container="body" data-content="GRBL Soft Reset" data-trigger="hover"><span class=""></span>Ctrl+X</button>
                 <!--glyphicon glyphicon-refresh-->
-                <button type="button" id="com-chilipeppr-widget-grbl-btnoptions" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-cog"></span></button>
+                <button type="button" id="com-chilipeppr-widget-grbl-new-btnoptions" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-cog"></span></button>
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-xs btn-default hidebody"><span class="glyphicon glyphicon-chevron-up"></span></button>
@@ -398,7 +398,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
         </div>
         <span class="panel-title" data-toggle="popover">GRBL</span>
     </div>
-    <div id="com-chilipeppr-widget-grbl-body" class="panel-body">
+    <div id="com-chilipeppr-widget-grbl-new-body" class="panel-body">
         <div id="grbl-buffer-warning" style="color:red;font-size:12px;text-align:center;">You must connect to your GRBL device using the GRBL buffer algorithm for this workspace to work properly. Connecting to any other buffer (default, tinyg, etc) will cause unpredictable behavior.
             <br/>
             <br/>
@@ -406,10 +406,10 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
         <div id="grbl-current-state">Current State: <span class="com-chilipeppr-grbl-state">Offline</span></div>
         <div id="grbl-mcs-wcs-offsets">Machine/Work Offsets: <span class="com-chilipeppr-grbl-mcswcsoffset"></span></div>
     </div>
-    <div id="com-chilipeppr-widget-grbl-ftr" class="panel-footer" style="font-size:10px;">Work in progress - to report issues please email <a href="mailto:jarret.luft@gmail.com">jarret.luft@gmail.com</a> (v1.5b)</div>
+    <div id="com-chilipeppr-widget-grbl-new-ftr" class="panel-footer" style="font-size:10px;">Work in progress - to report issues please email <a href="mailto:jarret.luft@gmail.com">jarret.luft@gmail.com</a> (v1.5b)</div>
 </div>
 
-<div class="modal fade " id="com-chilipeppr-widget-grbl-modal" tabindex="-1" role="dialog">
+<div class="modal fade " id="com-chilipeppr-widget-grbl-new-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -430,15 +430,15 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
 </body>
 
 </html>
- + index_num + '</div><input class="form-control" style="height:20px;padding:0px 6px;width:100px;" id="com-chilipeppr-widget-grbl-config-' + index_num + '" value="' + config_element[0] + '"/><span style="margin-left:10px;">' + config_element[1] + '</span></div>');
+ + index_num + '</div><input class="form-control" style="height:20px;padding:0px 6px;width:100px;" id="com-chilipeppr-widget-grbl-new-config-' + index_num + '" value="' + config_element[0] + '"/><span style="margin-left:10px;">' + config_element[1] + '</span></div>');
             }, this);
 
             $('#grbl-config-div').append('<br/><button class="btn btn-xs btn-default save-config">Save Settings To GRBL</button>');
             $('.save-config').click(this.saveConfigModal.bind(this));
-            $('#com-chilipeppr-widget-grbl-modal').modal('show');
+            $('#com-chilipeppr-widget-grbl-new-modal').modal('show');
         },
         hideConfigModal: function() {
-            $('#com-chilipeppr-widget-grbl-modal').modal('hide');
+            $('#com-chilipeppr-widget-grbl-new-modal').modal('hide');
         },
         saveConfigModal: function() {
             console.log("GRBL: Save Settings");
@@ -451,7 +451,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
 <body>
 
     <!--Put HTML Contents of Widget Here-->
-<div id="com-chilipeppr-widget-grbl" class="panel panel-default">
+<div id="com-chilipeppr-widget-grbl-new" class="panel panel-default">
     <div class="panel-heading">
         <div class="btn-toolbar pull-right" role="toolbar">
             <div class="btn-group">
@@ -461,7 +461,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
                 <!--<button type="button" class="btn btn-xs btn-default grbl-queueflush"  data-delay="500" data-animation="true" data-placement="auto" data-container="body" data-trigger="hover" data-title="Queue Flush" data-content="Empty planner buffer. Used for jogging and other cycles"><span class="">%</span></button>-->
                 <button type="button" class="btn btn-xs btn-default grbl-reset" data-toggle="popover" data-placement="auto" data-container="body" data-content="GRBL Soft Reset" data-trigger="hover"><span class=""></span>Ctrl+X</button>
                 <!--glyphicon glyphicon-refresh-->
-                <button type="button" id="com-chilipeppr-widget-grbl-btnoptions" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-cog"></span></button>
+                <button type="button" id="com-chilipeppr-widget-grbl-new-btnoptions" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-cog"></span></button>
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-xs btn-default hidebody"><span class="glyphicon glyphicon-chevron-up"></span></button>
@@ -480,7 +480,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
         </div>
         <span class="panel-title" data-toggle="popover">GRBL</span>
     </div>
-    <div id="com-chilipeppr-widget-grbl-body" class="panel-body">
+    <div id="com-chilipeppr-widget-grbl-new-body" class="panel-body">
         <div id="grbl-buffer-warning" style="color:red;font-size:12px;text-align:center;">You must connect to your GRBL device using the GRBL buffer algorithm for this workspace to work properly. Connecting to any other buffer (default, tinyg, etc) will cause unpredictable behavior.
             <br/>
             <br/>
@@ -488,10 +488,10 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
         <div id="grbl-current-state">Current State: <span class="com-chilipeppr-grbl-state">Offline</span></div>
         <div id="grbl-mcs-wcs-offsets">Machine/Work Offsets: <span class="com-chilipeppr-grbl-mcswcsoffset"></span></div>
     </div>
-    <div id="com-chilipeppr-widget-grbl-ftr" class="panel-footer" style="font-size:10px;">Work in progress - to report issues please email <a href="mailto:jarret.luft@gmail.com">jarret.luft@gmail.com</a> (v1.5b)</div>
+    <div id="com-chilipeppr-widget-grbl-new-ftr" class="panel-footer" style="font-size:10px;">Work in progress - to report issues please email <a href="mailto:jarret.luft@gmail.com">jarret.luft@gmail.com</a> (v1.5b)</div>
 </div>
 
-<div class="modal fade " id="com-chilipeppr-widget-grbl-modal" tabindex="-1" role="dialog">
+<div class="modal fade " id="com-chilipeppr-widget-grbl-new-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -512,8 +512,8 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
 </body>
 
 </html>
- + index_num + '=' + $('#com-chilipeppr-widget-grbl-config-' + index_num).val() + '\n';
-                this.config[index_num][0] = $('#com-chilipeppr-widget-grbl-config-' + index_num).val();
+ + index_num + '=' + $('#com-chilipeppr-widget-grbl-new-config-' + index_num).val() + '\n';
+                this.config[index_num][0] = $('#com-chilipeppr-widget-grbl-new-config-' + index_num).val();
                 this.sendCode(command);
             }, this);
             console.log(this.config);
@@ -564,7 +564,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
             chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/status', this.status);
             $('.com-chilipeppr-grbl-state').text(this.status);
             this.version = "";
-            $('#com-chilipeppr-widget-grbl .panel-title').text("GRBL");
+            $('#com-chilipeppr-widget-grbl-new .panel-title').text("GRBL");
             this.offsets = {
                 "x": 0.000,
                 "y": 0.000,
@@ -733,7 +733,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
                     if (this.version !== "")
                         chilipeppr.publish("/com-chilipeppr-elem-flashmsg/flashmsg", "GRBL Widget", "GRBL has been reset - temporary work coordinate and tool offsets have been lost.");
                     this.version = msg.split(" ")[1];
-                    $('#com-chilipeppr-widget-grbl .panel-title').text("GRBL (" + this.version + ")"); //update ui  
+                    $('#com-chilipeppr-widget-grbl-new .panel-title').text("GRBL (" + this.version + ")"); //update ui  
                 }
                 else if (msg.search(/^\$[0-9][0-9]*=/g) >= 0) { //is a config report ($0=,$1=...etc)
                     var tmp = msg.split(/ (.+)/); //break out config and description
@@ -812,7 +812,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
             return (inch * 25.4).toFixed(3);
         },
         forkSetup: function() {
-            var topCssSelector = '#com-chilipeppr-widget-grbl';
+            var topCssSelector = '#com-chilipeppr-widget-grbl-new';
 
             //$(topCssSelector + ' .fork').prop('href', this.fiddleurl);
             //$(topCssSelector + ' .standalone').prop('href', this.url);
@@ -831,7 +831,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
 
             chilipeppr.load("http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", function() {
                 require(['inline:com-chilipeppr-elem-pubsubviewer'], function(pubsubviewer) {
-                    pubsubviewer.attachTo($('#com-chilipeppr-widget-grbl .panel-heading .dropdown-menu'), that);
+                    pubsubviewer.attachTo($('#com-chilipeppr-widget-grbl-new .panel-heading .dropdown-menu'), that);
                 });
             });
 
@@ -846,7 +846,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
 <body>
 
     <!--Put HTML Contents of Widget Here-->
-<div id="com-chilipeppr-widget-grbl" class="panel panel-default">
+<div id="com-chilipeppr-widget-grbl-new" class="panel panel-default">
     <div class="panel-heading">
         <div class="btn-toolbar pull-right" role="toolbar">
             <div class="btn-group">
@@ -856,7 +856,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
                 <!--<button type="button" class="btn btn-xs btn-default grbl-queueflush"  data-delay="500" data-animation="true" data-placement="auto" data-container="body" data-trigger="hover" data-title="Queue Flush" data-content="Empty planner buffer. Used for jogging and other cycles"><span class="">%</span></button>-->
                 <button type="button" class="btn btn-xs btn-default grbl-reset" data-toggle="popover" data-placement="auto" data-container="body" data-content="GRBL Soft Reset" data-trigger="hover"><span class=""></span>Ctrl+X</button>
                 <!--glyphicon glyphicon-refresh-->
-                <button type="button" id="com-chilipeppr-widget-grbl-btnoptions" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-cog"></span></button>
+                <button type="button" id="com-chilipeppr-widget-grbl-new-btnoptions" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-cog"></span></button>
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-xs btn-default hidebody"><span class="glyphicon glyphicon-chevron-up"></span></button>
@@ -875,7 +875,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
         </div>
         <span class="panel-title" data-toggle="popover">GRBL</span>
     </div>
-    <div id="com-chilipeppr-widget-grbl-body" class="panel-body">
+    <div id="com-chilipeppr-widget-grbl-new-body" class="panel-body">
         <div id="grbl-buffer-warning" style="color:red;font-size:12px;text-align:center;">You must connect to your GRBL device using the GRBL buffer algorithm for this workspace to work properly. Connecting to any other buffer (default, tinyg, etc) will cause unpredictable behavior.
             <br/>
             <br/>
@@ -883,10 +883,10 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
         <div id="grbl-current-state">Current State: <span class="com-chilipeppr-grbl-state">Offline</span></div>
         <div id="grbl-mcs-wcs-offsets">Machine/Work Offsets: <span class="com-chilipeppr-grbl-mcswcsoffset"></span></div>
     </div>
-    <div id="com-chilipeppr-widget-grbl-ftr" class="panel-footer" style="font-size:10px;">Work in progress - to report issues please email <a href="mailto:jarret.luft@gmail.com">jarret.luft@gmail.com</a> (v1.5b)</div>
+    <div id="com-chilipeppr-widget-grbl-new-ftr" class="panel-footer" style="font-size:10px;">Work in progress - to report issues please email <a href="mailto:jarret.luft@gmail.com">jarret.luft@gmail.com</a> (v1.5b)</div>
 </div>
 
-<div class="modal fade " id="com-chilipeppr-widget-grbl-modal" tabindex="-1" role="dialog">
+<div class="modal fade " id="com-chilipeppr-widget-grbl-new-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

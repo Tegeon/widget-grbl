@@ -1,4 +1,4 @@
-#com-chilipeppr-widget-grbl-body {
+#com-chilipeppr-widget-grbl-new-body {
     /* padding:0; */
 }
 
@@ -36,6 +36,6 @@
     font-size: 10px;
 }
 
-#com-chilipeppr-widget-grbl .enabled {
+#com-chilipeppr-widget-grbl-new .enabled {
     background-color: #CCFF99;
 }

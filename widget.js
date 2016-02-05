@@ -1,5 +1,5 @@
 // Test this element. This code is auto-removed by the chilipeppr.load()
-cprequire_test(["inline:com-chilipeppr-widget-grbl"], function(grbl) {
+cprequire_test(["inline:com-chilipeppr-widget-grbl-new"], function(grbl) {
     //console.log("test running of " + grbl.id);
     grbl.init();
     //testRecvline();
@@ -80,9 +80,9 @@ function Queue() {
     }
 }
 
-cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie"], function() {
+cpdefine("inline:com-chilipeppr-widget-grbl-new", ["chilipeppr_ready", "jquerycookie"], function() {
     return {
-        id: "com-chilipeppr-widget-grbl",
+        id: "com-chilipeppr-widget-grbl-new",
         implements: {
             "com-chilipeppr-interface-cnccontroller": "The CNC Controller interface is a loosely defined set of publish/subscribe signals. The notion of an interface is taken from object-oriented programming like Java where an interface is defined and then specific implementations of the interface are created. For the sake of a Javascript mashup like what ChiliPeppr is, the interface is just a rule to follow to publish signals and subscribe to signals by different top-level names than the ID of the widget or element implementing the interface. Most widgets/elements will publish and subscribe on their own ID. In this widget we are publishing/subscribing on an interface name. If another controller like Grbl is defined by a member of the community beyond this widget for GRBL, this widget can be forked and used without other widgets needing to be changed and the user could pick a Grbl or GRBL implementation of the interface."
         },
@@ -202,7 +202,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
         options: null,
         setupUiFromCookie: function() {
             // read vals from cookies
-            var options = $.cookie('com-chilipeppr-widget-grbl-options');
+            var options = $.cookie('com-chilipeppr-widget-grbl-new-options');
 
             if (true && options) {
                 options = $.parseJSON(options);
@@ -225,24 +225,24 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
             var optionsStr = JSON.stringify(options);
             //console.log("GRBL: saving options:", options, "json.stringify:", optionsStr);
             // store cookie
-            $.cookie('com-chilipeppr-widget-grbl-options', optionsStr, {
+            $.cookie('com-chilipeppr-widget-grbl-new-options', optionsStr, {
                 expires: 365 * 10,
                 path: '/'
             });
         },
         showBody: function(evt) {
-            $('#com-chilipeppr-widget-grbl .panel-body .stat-row').removeClass('hidden');
-            $('#com-chilipeppr-widget-grbl .hidebody span').addClass('glyphicon-chevron-up');
-            $('#com-chilipeppr-widget-grbl .hidebody span').removeClass('glyphicon-chevron-down');
+            $('#com-chilipeppr-widget-grbl-new .panel-body .stat-row').removeClass('hidden');
+            $('#com-chilipeppr-widget-grbl-new .hidebody span').addClass('glyphicon-chevron-up');
+            $('#com-chilipeppr-widget-grbl-new .hidebody span').removeClass('glyphicon-chevron-down');
             if ((evt !== null)) {
                 this.options.showBody = true;
                 this.saveOptionsCookie();
             }
         },
         hideBody: function(evt) {
-            $('#com-chilipeppr-widget-grbl .panel-body .stat-row').addClass('hidden');
-            $('#com-chilipeppr-widget-grbl .hidebody span').removeClass('glyphicon-chevron-up');
-            $('#com-chilipeppr-widget-grbl .hidebody span').addClass('glyphicon-chevron-down');
+            $('#com-chilipeppr-widget-grbl-new .panel-body .stat-row').addClass('hidden');
+            $('#com-chilipeppr-widget-grbl-new .hidebody span').removeClass('glyphicon-chevron-up');
+            $('#com-chilipeppr-widget-grbl-new .hidebody span').addClass('glyphicon-chevron-down');
             if ((evt !== null)) {
                 this.options.showBody = false;
                 this.saveOptionsCookie();
@@ -251,9 +251,9 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
         btnSetup: function() {
             // chevron hide body
             var that = this;
-            $('#com-chilipeppr-widget-grbl .hidebody').click(function(evt) {
+            $('#com-chilipeppr-widget-grbl-new .hidebody').click(function(evt) {
                 //console.log("GRBL: hide/unhide body");
-                if ($('#com-chilipeppr-widget-grbl .panel-body .stat-row').hasClass('hidden')) {
+                if ($('#com-chilipeppr-widget-grbl-new .panel-body .stat-row').hasClass('hidden')) {
                     // it's hidden, unhide
                     that.showBody(evt);
                 }
@@ -262,34 +262,34 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
                     that.hideBody(evt);
                 }
             });
-            $('#com-chilipeppr-widget-grbl .grbl-feedhold').click(function() {
+            $('#com-chilipeppr-widget-grbl-new .grbl-feedhold').click(function() {
                 //console.log("GRBL: feedhold");
                 that.sendCode('!');
                 // announce to other widgets that user hit e-stop
                 chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerpause', "");
                 chilipeppr.publish("/com-chilipeppr-interface-cnccontroller/feedhold", "");
             });
-            $('#com-chilipeppr-widget-grbl .grbl-cyclestart').click(function() {
+            $('#com-chilipeppr-widget-grbl-new .grbl-cyclestart').click(function() {
                 //console.log("GRBL: cyclestart");
                 that.sendCode('~');
                 //may want to check if buffer queue is >128 before resuming planner.
                 chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerresume', "");
             });
 
-            $('#com-chilipeppr-widget-grbl .grbl-verbose').click(function() {
+            $('#com-chilipeppr-widget-grbl-new .grbl-verbose').click(function() {
                 //console.log("GRBL: manual status update");
-                $('#com-chilipeppr-widget-grbl .grbl-verbose').toggleClass("enabled");
+                $('#com-chilipeppr-widget-grbl-new .grbl-verbose').toggleClass("enabled");
             });
 
-            $('#com-chilipeppr-widget-grbl .grbl-reset').click(function() {
+            $('#com-chilipeppr-widget-grbl-new .grbl-reset').click(function() {
                 //console.log("GRBL: reset");
                 that.sendCode(String.fromCharCode(24));
                 chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/plannerresume', "");
             });
 
-            $('#com-chilipeppr-widget-grbl-btnoptions').click(this.showConfigModal.bind(this));
+            $('#com-chilipeppr-widget-grbl-new-btnoptions').click(this.showConfigModal.bind(this));
 
-            $('#com-chilipeppr-widget-grbl .btn-toolbar .btn').popover({
+            $('#com-chilipeppr-widget-grbl-new .btn-toolbar .btn').popover({
                 delay: 500,
                 animation: true,
                 placement: "auto",
@@ -301,22 +301,22 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
             $('#grbl-config-div').empty();
 
             this.config.forEach(function(config_element, index_num) {
-                $('#grbl-config-div').append('<div class="input-group"  style="width:400px;margin-bottom:2px;"><div class="input-group-addon" style="width:40px;padding:0px 6px;">$' + index_num + '</div><input class="form-control" style="height:20px;padding:0px 6px;width:100px;" id="com-chilipeppr-widget-grbl-config-' + index_num + '" value="' + config_element[0] + '"/><span style="margin-left:10px;">' + config_element[1] + '</span></div>');
+                $('#grbl-config-div').append('<div class="input-group"  style="width:400px;margin-bottom:2px;"><div class="input-group-addon" style="width:40px;padding:0px 6px;">$' + index_num + '</div><input class="form-control" style="height:20px;padding:0px 6px;width:100px;" id="com-chilipeppr-widget-grbl-new-config-' + index_num + '" value="' + config_element[0] + '"/><span style="margin-left:10px;">' + config_element[1] + '</span></div>');
             }, this);
 
             $('#grbl-config-div').append('<br/><button class="btn btn-xs btn-default save-config">Save Settings To GRBL</button>');
             $('.save-config').click(this.saveConfigModal.bind(this));
-            $('#com-chilipeppr-widget-grbl-modal').modal('show');
+            $('#com-chilipeppr-widget-grbl-new-modal').modal('show');
         },
         hideConfigModal: function() {
-            $('#com-chilipeppr-widget-grbl-modal').modal('hide');
+            $('#com-chilipeppr-widget-grbl-new-modal').modal('hide');
         },
         saveConfigModal: function() {
             console.log("GRBL: Save Settings");
 
             this.config.forEach(function(config_element, index_num) {
-                var command = '$' + index_num + '=' + $('#com-chilipeppr-widget-grbl-config-' + index_num).val() + '\n';
-                this.config[index_num][0] = $('#com-chilipeppr-widget-grbl-config-' + index_num).val();
+                var command = '$' + index_num + '=' + $('#com-chilipeppr-widget-grbl-new-config-' + index_num).val() + '\n';
+                this.config[index_num][0] = $('#com-chilipeppr-widget-grbl-new-config-' + index_num).val();
                 this.sendCode(command);
             }, this);
             console.log(this.config);
@@ -367,7 +367,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
             chilipeppr.publish('/com-chilipeppr-interface-cnccontroller/status', this.status);
             $('.com-chilipeppr-grbl-state').text(this.status);
             this.version = "";
-            $('#com-chilipeppr-widget-grbl .panel-title').text("GRBL");
+            $('#com-chilipeppr-widget-grbl-new .panel-title').text("GRBL");
             this.offsets = {
                 "x": 0.000,
                 "y": 0.000,
@@ -536,7 +536,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
                     if (this.version !== "")
                         chilipeppr.publish("/com-chilipeppr-elem-flashmsg/flashmsg", "GRBL Widget", "GRBL has been reset - temporary work coordinate and tool offsets have been lost.");
                     this.version = msg.split(" ")[1];
-                    $('#com-chilipeppr-widget-grbl .panel-title').text("GRBL (" + this.version + ")"); //update ui  
+                    $('#com-chilipeppr-widget-grbl-new .panel-title').text("GRBL (" + this.version + ")"); //update ui  
                 }
                 else if (msg.search(/^\$[0-9][0-9]*=/g) >= 0) { //is a config report ($0=,$1=...etc)
                     var tmp = msg.split(/ (.+)/); //break out config and description
@@ -615,7 +615,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
             return (inch * 25.4).toFixed(3);
         },
         forkSetup: function() {
-            var topCssSelector = '#com-chilipeppr-widget-grbl';
+            var topCssSelector = '#com-chilipeppr-widget-grbl-new';
 
             //$(topCssSelector + ' .fork').prop('href', this.fiddleurl);
             //$(topCssSelector + ' .standalone').prop('href', this.url);
@@ -634,7 +634,7 @@ cpdefine("inline:com-chilipeppr-widget-grbl", ["chilipeppr_ready", "jquerycookie
 
             chilipeppr.load("http://fiddle.jshell.net/chilipeppr/zMbL9/show/light/", function() {
                 require(['inline:com-chilipeppr-elem-pubsubviewer'], function(pubsubviewer) {
-                    pubsubviewer.attachTo($('#com-chilipeppr-widget-grbl .panel-heading .dropdown-menu'), that);
+                    pubsubviewer.attachTo($('#com-chilipeppr-widget-grbl-new .panel-heading .dropdown-menu'), that);
                 });
             });
 
